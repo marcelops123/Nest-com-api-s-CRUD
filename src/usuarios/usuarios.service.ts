@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, Param } from '@nestjs/common';
+import { Body, Injectable, Param } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { CreateUserDto } from './criar-usuarios';
 
@@ -19,12 +19,15 @@ export class UsuariosService {
     const db = this.databaseService.getConnection();
     return await db.schema.raw(`UPDATE user SET nome = 'marcelo', email = 'teste@gmail.com ', senha = '123teste' WHERE (id = '${id}') `)
   }
-  async adicionar(id: number) {
+  async adicionar(@Body()body: CreateUserDto) {
+
     const db = this.databaseService.getConnection();
-  return await db.schema.raw(`INSERT INTO user (id, nome, email, senha) VALUES ('${id}', 'teste', 'teste@gmail.com123', 'semsenha')`)
+    console.log(body.nome, body.id, body.email, body.senha)
+  return await db.schema.raw(`INSERT INTO user (id, nome, email, senha) VALUES ('${body.id}', '${body.nome}', '${body.email}', '${body.senha}')`)
         
   }
   async deletar(id: number) {
+    
     const db = this.databaseService.getConnection();
     return await db.schema.raw(`DELETE FROM user WHERE id = '${id}' `)
   }
