@@ -5,9 +5,7 @@ import { CreateUserDto } from './criar-usuarios';
 
 @Injectable()
 export class UsuariosService {
-  create(CreateUserDto: CreateUserDto) {
-    throw new Error('Método não implementado.');
-  }
+  
   constructor(private databaseService: DatabaseService) {}
 
   async buscar(id: number) {
@@ -15,14 +13,14 @@ export class UsuariosService {
     return await db.schema.raw(`SELECT * FROM USER WHERE id = '${id}'`);
   }
   
-  async alterar(id: number, nome: string) {
+  async alterar(@Body() body: CreateUserDto) {
     const db = this.databaseService.getConnection();
-    return await db.schema.raw(`UPDATE user SET nome = 'marcelo', email = 'teste@gmail.com ', senha = '123teste' WHERE (id = '${id}') `)
+    return await db.schema.raw(`UPDATE user SET nome = '${body.nome}', email = '${body.email} ', senha = '${body.senha}' WHERE (id = '${body.id}') `)
   }
   async adicionar(@Body()body: CreateUserDto) {
 
     const db = this.databaseService.getConnection();
-    console.log(body.nome, body.id, body.email, body.senha)
+    console.log("Usuário cadastrado com sucesso!")
   return await db.schema.raw(`INSERT INTO user (id, nome, email, senha) VALUES ('${body.id}', '${body.nome}', '${body.email}', '${body.senha}')`)
         
   }

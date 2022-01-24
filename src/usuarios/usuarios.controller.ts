@@ -13,10 +13,10 @@ export class UsuariosController {
     const idUser = id
     return this.usuarioRepository.buscar(idUser);
   }
-  @Put(':id')
-  alterar(@Param('id') id: number, nome: string) {
-    this.usuarioRepository.alterar(id, nome) ;
-    return `Usuário de id ${id} foi alterado!`
+  @Put('alterar')
+  alterar(@Body() body: CreateUserDto) {
+    this.usuarioRepository.alterar(body) ;
+    return `Usuário de id ${body.id} foi alterado!`
   }
   @Post('salvar')
   adicionarUsuario(@Body()body: CreateUserDto) {
@@ -25,7 +25,7 @@ export class UsuariosController {
   body.email;
   body.senha
   this.usuarioRepository.adicionar(body)
-  return `Seu id é : ${body.id}, <br> Seu nome é : ${body.nome} <br> Seu email é:  ${body.email} <br>  Sua senha é : ${body.senha}`
+  return `Seus dados foram adicionados com sucesso!`
 }
 @Delete(':id')
     deletar(@Param('id') id:number) {
