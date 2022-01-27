@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Body, Injectable, Param } from '@nestjs/common';
+import { Body, Injectable, Param, Query } from '@nestjs/common';
+import { query } from 'express';
 import { DatabaseService } from 'src/database/database.service';
 import { CreateUserDto } from './criar-usuarios';
 
@@ -8,20 +9,28 @@ export class UsuariosService {
   
   constructor(private databaseService: DatabaseService) {}
 
-  async buscar(id: number) {
-    const db = this.databaseService.getConnection();
-    return await db.schema.raw(`SELECT * FROM USER WHERE id = '${id}'`);
-  }
+
   
   async alterar(@Body() body: CreateUserDto) {
     const db = this.databaseService.getConnection();
-    return await db.schema.raw(`UPDATE user SET nome = '${body.nome}', email = '${body.email} ', senha = '${body.senha}' WHERE (id = '${body.id}') `)
+    return await db.schema.raw(`UPDATE user SET nome = '${body.InsertNome}', email = '${body.InsertEmail} ', senha = '${body.InsertSenha}' WHERE (id = '${body.id}') `)
   }
-  async adicionar(@Body()body: CreateUserDto) {
-
+  async buscar(@Body() body: any) {
     const db = this.databaseService.getConnection();
-    console.log("Usuário cadastrado com sucesso!")
-  return await db.schema.raw(`INSERT INTO user (id, nome, email, senha) VALUES ('${body.id}', '${body.nome}', '${body.email}', '${body.senha}')`)
+    console.log(body)
+    return await db.schema.raw(`SELECT * FROM usuarios`);
+    
+    
+
+    
+
+    
+  }
+
+    async adicionar(@Body() body: CreateUserDto){
+    const db = this.databaseService.getConnection();
+    console.log("Usuário cadastrado!")
+    return await db.schema.raw(`INSERT INTO usernest (nome, email, senha, estado, cidade) VALUES ('${body.InsertNome}', '${body.InsertEmail}', '${body.InsertSenha}', '${body.InsertEstado}', '${body.InsertCidade}');   `)
         
   }
   async deletar(id: number) {

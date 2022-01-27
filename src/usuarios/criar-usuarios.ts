@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
 export class CreateUserDto {
   id: number
-  nome: string;
-  email: string;
-  senha: string;
+  InsertNome: string;
+  InsertEmail: string;
+  InsertSenha: string;
+  InsertEstado: string;
+  InsertCidade: string;
 }

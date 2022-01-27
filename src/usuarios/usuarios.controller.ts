@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Post, Get, Delete, Put, Param, ParseArrayPipe, Body } from '@nestjs/common';
+import { Controller, Post, Get, Delete, Put, Param, ParseArrayPipe, Body, Query } from '@nestjs/common';
 import { getMaxListeners, resourceUsage } from 'process';
 import { CreateUserDto } from './criar-usuarios';
 import { UsuariosService } from './usuarios.service';
@@ -8,24 +8,26 @@ import { UsuariosService } from './usuarios.service';
 export class UsuariosController {
   constructor(private usuarioRepository: UsuariosService) {}
 
-  @Get(':id')
-  buscar(@Param('id') id:number) {
-    const idUser = id
-    return this.usuarioRepository.buscar(idUser);
+
+  @Get('buscar')
+  GetUser(@Body() body: any) {
+    
+    return ` ${body}` 
   }
+
+
+
+
   @Put('alterar')
   alterar(@Body() body: CreateUserDto) {
     this.usuarioRepository.alterar(body) ;
     return `Usuário de id ${body.id} foi alterado!`
   }
-  @Post('salvar')
-  adicionarUsuario(@Body()body: CreateUserDto) {
-  body.id 
-  body.nome 
-  body.email;
-  body.senha
-  this.usuarioRepository.adicionar(body)
-  return `Seus dados foram adicionados com sucesso!`
+  @Post('adicionar')
+  adicionarUsuario(@Body() body: CreateUserDto) {
+    this.usuarioRepository.adicionar(body);
+    return `Usuário cadastrado com sucesso!`
+  
 }
 @Delete(':id')
     deletar(@Param('id') id:number) {
